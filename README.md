@@ -11,17 +11,17 @@ The webpage has the list of movie images with its own storyline, When you click 
 ### To run the app...
 Make sure you installed python in your machine.
 * Git clone the repo
-    ```sh
-    $ git clone https://github.com/Hemalatah/OOP-python.git
-    ```
+```sh
+$ git clone https://github.com/Hemalatah/OOP-python.git
+```
 * get the repo as your current working directory in your terminal 
-     ```sh
-    $ cd 'path to project directory'
-    ```
+```sh
+$ cd 'path to project directory'
+```
 * run the python module
-     ```sh
-    $ python entertainment.py
-    ```
+```sh
+$ python entertainment.py
+```
 * This will open up the browser window by executing the fresh_tomotoes.py and creating the fresh_tomatoes.html
 
 > Uses Python for server side code to serve the data for viewers of the website.
