@@ -10,10 +10,13 @@ main_page_head = '''
     <link rel="shortcut icon" href="images/movieicon.jpg">
 
     <!-- Bootstrap 3 -->
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/
+    3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/
+    3.1.0/css/bootstrap-theme.min.css">
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/
+    bootstrap.min.js"></script>
     <style type="text/css" media="screen">
         body {
             padding-top: 80px;
@@ -60,16 +63,19 @@ main_page_head = '''
     </style>
     <script type="text/javascript" charset="utf-8">
         // Pause the video when the modal is closed
-        $(document).on('click', '.hanging-close, .modal-backdrop, .modal', function (event) {
-            // Remove the src so the player itself gets removed, as this is the only
-            // reliable way to ensure the video stops playing in IE
+        $(document).on('click', '.hanging-close, .modal-backdrop, .modal',
+        function (event) {
+            // Remove the src so the player itself gets removed, as this is the
+            // only reliable way to ensure the video stops playing in IE
             $("#trailer-video-container").empty();
         });
         // Start playing the video whenever the trailer modal is opened
         $(document).on('click', '.movie-tile', function (event) {
             var trailerYouTubeLink = $(this).attr('data-trailer-youtube-link')
-            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeLink + '?autoplay=1&html5=1';
-            $("#trailer-video-container").empty().append($("<iframe></iframe>", {
+            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeLin
+            k + '?autoplay=1&html5=1';
+            $("#trailer-video-container").empty().append($("<iframe></iframe>",
+            {
               'id': 'trailer-video',
               'type': 'text-html',
               'src': sourceUrl,
@@ -95,15 +101,17 @@ main_page_content = '''
     <div class="modal" id="trailer">
       <div class="modal-dialog">
         <div class="modal-content">
-          <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
-            <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
+          <a href="#" class="hanging-close" data-dismiss="modal"
+          aria-hidden="true">
+            <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_
+            MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
           </a>
           <div class="scale-media" id="trailer-video-container">
           </div>
         </div>
       </div>
     </div>
-    
+
     <!-- Main Page Content -->
     <div class="container">
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -123,42 +131,52 @@ main_page_content = '''
 
 # A single movie entry html template
 movie_tile_content = '''
-<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-link="{trailer_youtube_link}" data-toggle="modal" data-target="#trailer">
+<div class="col-md-6 col-lg-4 movie-tile text-center"
+data-trailer-youtube-link="{trailer_youtube_link}" data-toggle="modal"
+data-target="#trailer">
     <img src="{poster_image_url}" width="220" height="342">
     <h3>{movie_title}</h3>
     <p>{movie_story_line}</p>
 </div>
 '''
 
+
 def create_movie_tiles_content(movies):
     # The HTML content for this section of the page
     content = ''
     for movie in movies:
         # Extract the youtube ID from the url
-        youtube_id_match = re.search(r'(?<=v=)[^&#]+', movie.trailer_youtube_link)
-        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', movie.trailer_youtube_link)
-        trailer_youtube_link = youtube_id_match.group(0) if youtube_id_match else None
+        youtube_id_match = re.search(r'(?<=v=)[^&#]+',
+                                     movie.trailer_youtube_link)
+        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+',
+                                                         movie.trailer_youtube_
+                                                         link)
+        trailer_youtube_link = youtube_id_match.group(0) if youtube_id_match
+        else None
 
         # Append the tile for the movie with its content filled in
         content += movie_tile_content.format(
             movie_title=movie.title,
             poster_image_url=movie.poster_image_url,
             trailer_youtube_link=trailer_youtube_link,
-            movie_story_line= movie.story_line
+            movie_story_line=movie.story_line
         )
     return content
 
+
 def open_movies_page(movies):
-  # Create or overwrite the output file
-  output_file = open('fresh_tomatoes.html', 'w')
+    # Create or overwrite the output file
+    output_file = open('fresh_tomatoes.html', 'w')
 
-  # Replace the placeholder for the movie tiles with the actual dynamically generated content
-  rendered_content = main_page_content.format(movie_tiles=create_movie_tiles_content(movies))
+    # Replace the placeholder for the movie tiles with the actual dynamically
+    # generated content
+    rendered_content = main_page_content.format(movie_tiles=create_movie_
+                                                tiles_content(movies))
 
-  # Output the file
-  output_file.write(main_page_head + rendered_content)
-  output_file.close()
+    # Output the file
+    output_file.write(main_page_head + rendered_content)
+    output_file.close()
 
-  # open the output file in the browser
-  url = os.path.abspath(output_file.name)
-  webbrowser.open('file://' + url, new=2) # open in a new tab, if possible
+    # open the output file in the browser
+    url = os.path.abspath(output_file.name)
+    webbrowser.open('file://' + url, new=2)  # open in a new tab, if possible
